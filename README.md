@@ -1,45 +1,89 @@
 # Personal Planner
 
-A mobile-first Expo / React Native planner for managing Fixed, Flexible and Someday tasks, finding suitable time slots, rescheduling work and recovering unfinished tasks.
+A personal planning app designed to reduce the friction of planning and replanning. It helps users organise commitments, find realistic times for flexible tasks, and adapt when plans change — while keeping the user in control.
+
+The product follows a **“co-pilot, not autopilot”** philosophy: the planner can suggest when and how to schedule work, but the user makes the final decision.
+
+## Try the app
+
+### Web app
+
+Open the browser version:
+
+**[Try Personal Planner](ADD_WEB_APP_URL_HERE)**
+
+> Replace `ADD_WEB_APP_URL_HERE` with the Vercel deployment URL once the web deployment is live.
+
+### Android app
+
+**[Download the Android APK](ADD_ANDROID_APK_URL_HERE)**
+
+> Replace `ADD_ANDROID_APK_URL_HERE` with the APK download link you want to share.
+
+To install the APK:
+1. Open the APK link on your Android device.
+2. Download the APK.
+3. If prompted, allow your browser or file manager to install apps from that source.
+4. Open the downloaded file and follow the installation prompts.
+
+## Features
+
+- **Three task types:** Fixed commitments, Flexible tasks, and Someday tasks.
+- **Today, Week, and Month views:** See your schedule at different levels.
+- **Flexible task scheduling:** Get suggestions for suitable time slots based on task details and availability.
+- **Free-slot suggestions:** Explore tasks that could fit into an available slot, or leave the time free.
+- **Rescheduling:** Find alternative times for an existing flexible task.
+- **Unfinished-task recovery:** Revisit unfinished work and find another suitable time.
+- **Recurring tasks:** Set up repeating commitments without recreating them manually.
+- **User control:** Review and approve scheduling suggestions rather than having the app silently rearrange the schedule.
 
 ## Run locally
 
+### Prerequisites
+
+- Node.js and npm
+- A local copy of this repository
+
+### Install dependencies
+
 ```bash
 npm install
-npx expo start
 ```
 
-## Validate the project
+### Run in a web browser
 
 ```bash
-npm run typecheck
-npx expo export --platform android
+npx expo start --web
 ```
 
-## Build an installable Android APK
+### Run on Android
 
-The `preview` EAS profile is configured to produce an installable APK.
+With an Android emulator configured:
 
-1. Install / sign in to Expo's EAS CLI:
+```bash
+npx expo start --android
+```
 
-   ```bash
-   npx eas-cli@latest login
-   ```
+You can also build and install an Android preview APK using the project's EAS Build configuration.
 
-2. Configure the project for EAS (the CLI will create or link an Expo project):
+## Tech stack
 
-   ```bash
-   npx eas-cli@latest build:configure
-   ```
+- **React Native** — cross-platform application UI
+- **Expo** — development and build tooling
+- **Expo Router** — file-based navigation
+- **TypeScript** — application development
+- **Vercel** — web deployment
 
-3. Start the APK build:
+## Data and privacy
 
-   ```bash
-   npx eas-cli@latest build --platform android --profile preview
-   ```
+The current app stores planner data locally on the device or browser where it is used. It does not currently provide user accounts or automatic cross-device synchronisation.
 
-When the cloud build completes, open the build URL on the Android phone and install the APK.
+This means:
+- Tasks created in one browser are stored in that browser's local data.
+- Different visitors to the web app have separate planner data.
+- Browser data and Android app data are not automatically shared with each other.
+- Clearing the browser's site data may remove locally stored planner information.
 
-## Local data
+## Project status
 
-Planner tasks are stored on the device: native builds use the app's document storage, and web builds use browser local storage. Data is local to that installation/browser and is not synced between devices.
+This is an ongoing personal product project. The app is being developed and improved iteratively, with a focus on practical scheduling workflows, clear user control, and a usable cross-platform experience.
