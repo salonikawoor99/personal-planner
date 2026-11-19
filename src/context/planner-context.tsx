@@ -506,11 +506,25 @@ export function usePlanner() {
   return context;
 }
 function parseTime(value: string): number | undefined {
-  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-  if (!match) return undefined;
-  let hour = Number(match[1]) % 12;
-  if (match[3].toUpperCase() === 'PM') hour += 12;
-  const minute = Number(match[2]);
-  if (minute < 0 || minute > 59) return undefined;
-  return hour * 60 + minute;
+  // Accept the app's 12-hour display format and 24-hour values that may
+  // arrive from platform-specific pickers or navigation parameters.
+  const normalized = value.trim().toUpperCase().replace(/\s+/g, ' ');
+  const twelveHour = normalized.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/);
+  if (twelveHour) {
+    const rawHour = Number(twelveHour[1]);
+    const minute = Number(twelveHour[2]);
+    if (rawHour < 1 || rawHour > 12 || minute < 0 || minute > 59) return undefined;
+    const hour = (rawHour % 12) + (twelveHour[3] === 'PM' ? 12 : 0);
+    return hour * 60 + minute;
+  }
+
+  const twentyFourHour = normalized.match(/^(\d{1,2}):(\d{2})$/);
+  if (twentyFourHour) {
+    const hour = Number(twentyFourHour[1]);
+    const minute = Number(twentyFourHour[2]);
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return undefined;
+    return hour * 60 + minute;
+  }
+
+  return undefined;
 }

@@ -244,20 +244,29 @@ export function normalizeDateKey(
     return undefined;
   }
 
-  const year = Number(
-    match[3] ??
-      new Date().getFullYear()
-  );
+  // Avoid parsing locale-formatted date strings with `new Date(string)`.
+  // Hermes (Android) and browser engines do not consistently support
+  // non-ISO date strings such as "November 20, 2026". Parse the components
+  // explicitly so the same date key is produced on every platform.
+  const monthNames = [
+    'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december',
+  ];
+  const monthIndex = monthNames.indexOf(match[1].toLowerCase());
+  const day = Number(match[2]);
+  const year = Number(match[3] ?? new Date().getFullYear());
 
-  const parsed =
-    new Date(
-      `${match[1]} ${match[2]}, ${year} 12:00:00`
-    );
+  if (monthIndex < 0 || !Number.isInteger(day) || !Number.isInteger(year)) {
+    return undefined;
+  }
 
+  const parsed = new Date(year, monthIndex, day, 12, 0, 0, 0);
+  // Reject overflow dates such as February 31 rather than silently rolling
+  // them into the following month.
   if (
-    Number.isNaN(
-      parsed.getTime()
-    )
+    parsed.getFullYear() !== year ||
+    parsed.getMonth() !== monthIndex ||
+    parsed.getDate() !== day
   ) {
     return undefined;
   }

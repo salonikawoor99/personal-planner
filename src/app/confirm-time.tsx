@@ -95,12 +95,15 @@ export default function ConfirmTimeScreen() {
 
     if (proposedTask && !isTimeAvailable(proposedTask)) {
       const conflicts = getTimeConflicts(proposedTask);
+      const isInvalidRange = conflicts.some((item) => item.startsWith('Invalid time range'));
       const details = conflicts.length
         ? conflicts.slice(0, 4).map((conflict) => `• ${conflict}`).join('\n')
         : 'The selected time range is invalid.';
       Alert.alert(
-        'Scheduling conflict',
-        `This time is no longer available because it overlaps with:\n\n${details}\n\nPlease choose another time.`
+        isInvalidRange ? 'Invalid time range' : 'Scheduling conflict',
+        isInvalidRange
+          ? details
+          : `This time overlaps with:\n\n${details}\n\nPlease choose another time.`
       );
       return;
     }
@@ -127,10 +130,14 @@ export default function ConfirmTimeScreen() {
       });
       if (!saved) {
         const conflicts = getTimeConflicts({ ...existingTask, scheduledDate: date ?? existingTask.scheduledDate, startTime: startTime ?? '', endTime: endTime ?? '' });
+        const isInvalidRange = conflicts.some((item) => item.startsWith('Invalid time range'));
         const details = conflicts.length
           ? conflicts.slice(0, 4).map((conflict) => `• ${conflict}`).join('\n')
           : 'The selected time range is invalid.';
-        Alert.alert('Scheduling conflict', `This time overlaps with:\n\n${details}`);
+        Alert.alert(
+          isInvalidRange ? 'Invalid time range' : 'Scheduling conflict',
+          isInvalidRange ? details : `This time overlaps with:\n\n${details}`
+        );
         return;
       }
     } else if (name) {
@@ -177,10 +184,14 @@ export default function ConfirmTimeScreen() {
           scheduledDate: date ?? '', startTime: startTime ?? '', endTime: endTime ?? '',
           notes: '', recurrence: 'Never',
         });
+        const isInvalidRange = conflicts.some((item) => item.startsWith('Invalid time range'));
         const details = conflicts.length
           ? conflicts.slice(0, 4).map((conflict) => `• ${conflict}`).join('\n')
           : 'The selected time range is invalid.';
-        Alert.alert('Scheduling conflict', `This time overlaps with:\n\n${details}`);
+        Alert.alert(
+          isInvalidRange ? 'Invalid time range' : 'Scheduling conflict',
+          isInvalidRange ? details : `This time overlaps with:\n\n${details}`
+        );
         return;
       }
     }

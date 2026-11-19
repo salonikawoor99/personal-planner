@@ -1,9 +1,9 @@
 import {
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from 'react-native';
 
 import {
@@ -40,6 +40,10 @@ export default function MonthScreen() {
   const {
     getTasksForDate,
   } = usePlanner();
+  const { height: windowHeight } = useWindowDimensions();
+  // Keep the complete six-week calendar visible without scrolling.
+  // The available height varies across Android devices and screen sizes.
+  const dayCellHeight = Math.max(42, Math.min(88, (windowHeight - 330) / 6));
 
   const [monthKey, setMonthKey] =
     useState(
@@ -87,12 +91,7 @@ export default function MonthScreen() {
     );
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={
-        styles.contentContainer
-      }
-    >
+    <View style={styles.container}>
       <View
         style={styles.header}
       >
@@ -257,6 +256,7 @@ export default function MonthScreen() {
                   inMonth={
                     inMonth
                   }
+                  cellHeight={dayCellHeight}
                 />
               );
             }
@@ -287,7 +287,7 @@ export default function MonthScreen() {
           label="Free"
         />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -295,10 +295,12 @@ function CalendarDayCell({
   dateKey,
   tasks,
   inMonth,
+  cellHeight,
 }: {
   dateKey: string;
   tasks: Task[];
   inMonth: boolean;
+  cellHeight: number;
 }) {
   const date =
     keyToDate(
@@ -345,6 +347,7 @@ function CalendarDayCell({
     <View
       style={[
         styles.dayCell,
+        { height: cellHeight },
         !inMonth &&
           styles.outsideMonthCell,
       ]}
@@ -625,14 +628,10 @@ const styles =
         '#FAF9F7',
     },
 
-    contentContainer: {
-      paddingBottom: 40,
-    },
-
     header: {
       paddingHorizontal: 24,
-      paddingTop: 24,
-      paddingBottom: 20,
+      paddingTop: 12,
+      paddingBottom: 12,
       flexDirection:
         'row',
       alignItems:
@@ -679,9 +678,9 @@ const styles =
 
     summaryCard: {
       marginHorizontal: 24,
-      marginBottom: 24,
-      paddingHorizontal: 24,
-      paddingVertical: 18,
+      marginBottom: 12,
+      paddingHorizontal: 20,
+      paddingVertical: 12,
       borderRadius: 18,
       backgroundColor:
         '#FFFFFF',
@@ -734,7 +733,7 @@ const styles =
 
     weekdayCell: {
       flex: 1,
-      height: 46,
+      height: 32,
       alignItems:
         'center',
       justifyContent:
@@ -755,12 +754,11 @@ const styles =
 
     dayCell: {
       width: '14.2857%',
-      height: 108,
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor:
         '#EDE9E4',
-      paddingTop: 10,
+      paddingTop: 6,
       alignItems:
         'center',
     },
@@ -784,7 +782,7 @@ const styles =
     },
 
     dotArea: {
-      height: 38,
+      height: 24,
       flexDirection:
         'row',
       alignItems:
@@ -807,7 +805,7 @@ const styles =
 
     legend: {
       paddingHorizontal: 24,
-      paddingTop: 18,
+      paddingTop: 10,
       flexDirection:
         'row',
       justifyContent:
