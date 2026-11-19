@@ -12,13 +12,9 @@ Open the browser version:
 
 **[Try Personal Planner](ADD_WEB_APP_URL_HERE)**
 
-> Replace `ADD_WEB_APP_URL_HERE` with the Vercel deployment URL once the web deployment is live.
-
 ### Android app
 
 **[Download the Android APK](ADD_ANDROID_APK_URL_HERE)**
-
-> Replace `ADD_ANDROID_APK_URL_HERE` with the APK download link you want to share.
 
 To install the APK:
 1. Open the APK link on your Android device.
