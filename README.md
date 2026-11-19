@@ -10,11 +10,11 @@ The product follows a **“co-pilot, not autopilot”** philosophy: the planner 
 
 Open the browser version:
 
-**[Try Personal Planner](ADD_WEB_APP_URL_HERE)**
+**[Try Personal Planner](https://personal-planner-ten-xi.vercel.app/)**
 
 ### Android app
 
-**[Download the Android APK](ADD_ANDROID_APK_URL_HERE)**
+**[Download the Android APK](https://expo.dev/accounts/salonikawoor/projects/personal-planner/builds/b69664a6-ebd2-44c1-b2f2-f3586fbb29f5)**
 
 To install the APK:
 1. Open the APK link on your Android device.
